@@ -88,4 +88,5 @@ The default configuration is the equivalent of:
 
 License
 -------
-[ISC](https://github.com/uniqueiyke/serial-pin-generator/master/LICENSE)
+License under the
+[ISC](https://github.com/uniqueiyke/serial-pin-generator/blob/master/LICENSE)
