@@ -85,7 +85,7 @@ option | datatype | description
 ------ | -------- | -----------
 **`pinLength`** | **number** | The number of digits the pin should have.
 **`serialNumLength`** | **number** | The number of characters (string length) of the serial number.
-**`prefixCharacters`** | **string** | -The prefix characters of the serial number. This should be alphanumeric characters. -If nou provided the serial numbers will be string of numbers only. -NOTE: The `serialNumLength` should be **_four characters_** longer than the length of the `prefixCharacters`.
+**`prefixCharacters`** | **string** |              -The prefix characters of the serial number. This should be alphanumeric characters.                  -If nou provided the serial numbers will be string of numbers only.                                    -NOTE: The `serialNumLength` should be **_four characters_** longer than the length of the `prefixCharacters`.
 **`numberRequired`** | **number** | The total number of pins and corresponding serial numbers required to be generated.
 
 #### The default configuration is the equivalent of:
