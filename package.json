@@ -1,6 +1,6 @@
 {
   "name": "serial-pin-generator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A package library that anables developers to generate pin digits and the corresponding serial numbers for their application",
   "main": "index.js",
   "directories": {
