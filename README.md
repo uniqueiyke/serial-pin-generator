@@ -29,7 +29,7 @@ pinGen()
 
 `pinGen([options])`  
 
-`options` is optional and is provided to configure the pin digits and the serial numbers that will be generated.
+The function accept object as argument. The argument is optional. it is provided to configure the output of the pin digits and the serial numbers that will be generated.
 
 #### Setting the optional option argument
 ```javascript
@@ -81,15 +81,15 @@ pinGen({
 
 ## Configuration Options
 
-| option | datatype | description |
+| options keys | datatype | description |
 ------ | -------- | -----------
-| **`pinLength`** | **number** | The number of digits the pin should have. |
-| **`serialNumLength`** | **number** | The number of characters (string length) of the serial number. |
-| **`prefixCharacters`** | **string** | The prefix characters of the serial number. This should be alphanumeric characters. If you did not provide this option, the serial numbers will be string of numbers only. *The `serialNumLength` should be at least **_four characters_** longer than the length of the `prefixCharacters`.* |
-| **`numberRequired`** | **number** | The total number of pins and corresponding serial numbers required to be generated. |
+| **`options.pinLength`** | **number** | The number of digits the pin should have. |
+| **`options.serialNumLength`** | **number** | The number of characters (string length) of the serial number. |
+| **`options.prefixCharacters`** | **string** | The prefix characters of the serial number. This should be alphanumeric characters. If you did not provide this option, the serial numbers will be string of numbers only. *The `options.serialNumLength` should be at least **_four characters_** longer than the length of the `options.prefixCharacters`.* string |
+| **`options.numberRequired`** | **number** | The total number of pins and corresponding serial numbers required to be generated. |
 
 ### NOTE: 
-The `serialNumLength` should be at least **_four characters_** longer than the length of the `prefixCharacters`.
+The `options.serialNumLength` should be at least **_four characters_** longer than the length of the `options.prefixCharacters`.
 
 ### The default configuration is the equivalent of:
 ```
