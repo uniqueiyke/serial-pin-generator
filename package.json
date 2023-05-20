@@ -1,11 +1,13 @@
 {
   "name": "serial-pin-generator",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "A package library that anables developers to generate pin digits and the corresponding serial numbers for their application",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
+  "exports": {
+    "import": "./index.js",
+    "require": "./index.cjs"
   },
+  "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

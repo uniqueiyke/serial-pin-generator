@@ -1,3 +1,3 @@
-'use strict';
+import serialPinGenerator from "./index.cjs";
 
-module.exports = require('./lib/create-serial-pin');
+export default  serialPinGenerator;
