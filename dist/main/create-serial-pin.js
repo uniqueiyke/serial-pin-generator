@@ -1,25 +1,26 @@
-const SerialNumber = require('./serial-number.cjs');
-const generatePin = require('./pin-generator.cjs');
-const { typeErrorMessage, errorMessage } = require('./util-funcs.cjs');
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const serial_number_1 = __importDefault(require("./serial-number"));
+const pin_generator_1 = __importDefault(require("./pin-generator"));
+const utility_function_1 = require("./utils/utility-function");
 /**
  * A generator function for generating scratch card pin and serial number
- * @param {number} cardNumberOfDigits 
- * @param {string} prefixCharacters 
- * @param {number} serialNumberOfDigits 
- * @param {number} numberRequired 
+ * @param pinLength
+ * @param serialNumLength
+ * @param prefixCharacters
+ * @param numberRequired
  */
 function* generateValues(pinLength, serialNumLength, prefixCharacters, numberRequired) {
-    const padCount = Number(numberRequired.toString().length) ;
-    const SerialNum = new SerialNumber(serialNumLength, prefixCharacters, padCount);
+    const padCount = Number(numberRequired.toString().length);
+    const SerialNum = new serial_number_1.default(serialNumLength, prefixCharacters, padCount);
     let counter = 0;
     while (counter++ < numberRequired) {
-        yield { pin: generatePin(pinLength), serial_num: SerialNum.serialNumber() };
+        yield { pin: (0, pin_generator_1.default)(pinLength), serial_num: SerialNum.serialNumber() };
     }
 }
-
-
-
 const defaultOptions = {
     pinLength: 12,
     serialNumLength: {
@@ -28,42 +29,38 @@ const defaultOptions = {
     },
     prefixCharacters: '',
     numberRequired: 20
-}
-
+};
 /**
  * create and save scratch card pins and serial numbers;
- * 
- * prefixCharacters is used for specifying the string part opf the serial number
- * @param {number} pinLength Number of digits for card
- * @param {string} prefixCharacters sspecify the string prefix of the serial number if required
- * @param {number|object} serialNumLength string length for serial number
- * @param {number} numberRequired Number of cards to be created 
+ * options.prefixCharacters is used for specifying the string part opf the serial number
+ * @param options
+ * @returns
  */
 async function createCardPins(options = defaultOptions) {
-    let opts = {};
+    let opts;
     if (options !== defaultOptions) {
         if (options && !(options.constructor === Object && Object.keys(options).length >= 1)) {
-            throw TypeError(typeErrorMessage(options, 'object'));
+            throw TypeError((0, utility_function_1.typeErrorMessage)(options, 'object'));
         }
         if (options.pinLength && typeof (options.pinLength) !== 'number') {
-            throw TypeError(typeErrorMessage(options.pinLength, 'number'));
+            throw TypeError((0, utility_function_1.typeErrorMessage)(options.pinLength, 'number'));
         }
         if (options.serialNumLength && (typeof (options.serialNumLength) !== 'number' && typeof (options.serialNumLength) !== 'object')) {
-            throw TypeError(typeErrorMessage(options.serialNumLength, 'number or object'));
+            throw TypeError((0, utility_function_1.typeErrorMessage)(options.serialNumLength, 'number or object'));
         }
-        if (options.serialNumLength && options.serialNumLength.length && typeof (options.serialNumLength.length) !== 'number' ) {
-            throw TypeError(typeErrorMessage(options.serialNumLength.length, 'number'));
+        if (options.serialNumLength && options.serialNumLength.length && typeof (options.serialNumLength.length) !== 'number') {
+            throw TypeError((0, utility_function_1.typeErrorMessage)(options.serialNumLength.length, 'number'));
         }
-        if (options.serialNumLength && options.serialNumLength.includePrefixLength  && typeof (options.serialNumLength.includePrefixLength) !== 'boolean') {
-            throw TypeError(typeErrorMessage(options.serialNumLength.includePrefixLength, 'boolean'));
+        if (options.serialNumLength && options.serialNumLength.includePrefixLength && typeof (options.serialNumLength.includePrefixLength) !== 'boolean') {
+            throw TypeError((0, utility_function_1.typeErrorMessage)(options.serialNumLength.includePrefixLength, 'boolean'));
         }
         if (options.numberRequired && typeof (options.numberRequired) !== 'number') {
-            throw TypeError(typeErrorMessage(options.numberRequired, 'number'));
+            throw TypeError((0, utility_function_1.typeErrorMessage)(options.numberRequired, 'number'));
         }
         if (options.prefixCharacters && typeof (options.prefixCharacters) !== 'string') {
-            throw TypeError(typeErrorMessage(options.prefixCharacters, 'string'));;
+            throw TypeError((0, utility_function_1.typeErrorMessage)(options.prefixCharacters, 'string'));
+            ;
         }
-        
         opts = {
             pinLength: options.pinLength ? options.pinLength : defaultOptions.pinLength,
             prefixCharacters: options.prefixCharacters ? options.prefixCharacters : defaultOptions.prefixCharacters,
@@ -77,14 +74,11 @@ async function createCardPins(options = defaultOptions) {
                     ? options.serialNumLength.includePrefixLength
                     : defaultOptions.serialNumLength.includePrefixLength,
             }
-        }
+        };
     }
     else {
-        opts = { ...options };
+        opts = Object.assign({}, options);
     }
-
-
-
     const { pinLength, serialNumLength, prefixCharacters, numberRequired } = opts;
     const cards = generateValues(pinLength, serialNumLength, prefixCharacters, numberRequired);
     let card;
@@ -93,12 +87,11 @@ async function createCardPins(options = defaultOptions) {
         card = cards.next();
         if (card.value !== undefined)
             cardArray.push(card.value);
-    }
-    while (card.done === false);
+    } while (card.done === false);
     if (cardArray === null || cardArray.length === undefined || cardArray.length < 1) {
-        throw Error(errorMessage('No card created'));
+        throw Error((0, utility_function_1.errorMessage)('No card created'));
     }
     return cardArray;
 }
-
-module.exports = createCardPins; 
+exports.default = createCardPins;
+//# sourceMappingURL=create-serial-pin.js.map

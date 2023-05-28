@@ -1,24 +1,11 @@
-const { randomNumNot0 } = require("./util-funcs.cjs");
-
-/**
- * Generate a random number with a specified number of digits
- * @param {number} numOfDigits 
- * @returns number
- */
-function randomNumber(numOfDigits) {
-    let num = `${Math.floor(randomNumNot0() * Math.pow(10, numOfDigits))}`;
-    if(num.length < numOfDigits){
-        num = num.padEnd(numOfDigits, Math.floor(Math.random() * 10));
-    }
-    return Number(num);
-}
+import {randomNumber} from './utils/utility-function';
 
 /**
  * Generate a random scratch card pin number with a specified number of digits
  * @param {number} numOfDigits 
  * @returns number
  */
-function generatePin(numOfDigits = 12) {
+function generatePin(numOfDigits: number = 12) {
     if(numOfDigits > 16 && numOfDigits  <= 32){
         const part1 = Math.floor(numOfDigits / 2);
         const part2 = numOfDigits - part1;
@@ -39,4 +26,5 @@ function generatePin(numOfDigits = 12) {
     return randomNumber(numOfDigits);
 }
 
-module.exports = generatePin;
+
+export default generatePin;
