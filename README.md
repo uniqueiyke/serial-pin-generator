@@ -2,6 +2,7 @@
 
 A simple JavaScript script that enable developers to generate pin digits and corresponding serial numbers in application that require something like scratch card or recharge card services.
 it is a promise base script.
+Although pin and serial numbers are not each expected to be more than 25 characters long, but this script can generate up to 64 character long for each (pin or serial number).
 
 
 ## Installation
@@ -12,6 +13,10 @@ it is a promise base script.
 ##### install via npm
 
 `npm i serial-pin-generator`
+
+#### or via yarn
+
+`yarn add serial-pin-generator`
 
 require it in your file
 ```javascript
@@ -36,19 +41,69 @@ The function accept object as argument. The argument is optional. it is provided
 pinGen({
     pinLength: 5,
     serialNumLength: 15,
+    prefixCharacters: 'sdp',
+    numberRequired: 7,
     numberRequired: 5
 }).then(values =>console.log(values))
   .catch(err => console.log(err));
+```
+### is equivalent to this
+
+```javascript
+pinGen({
+    serialNumLength : {
+        length: 15,
+        includePrefixLength: true
+    },
+    prefixCharacters: 'sdp',
+    numberRequired: 7,
+    pinLength: 8
+})
+.then(values => console.log(values))
+.catch(err => console.log(err.message));
 ```
 
 **Which generates** 
 ```
 [
-  { pin: 22295, serial_num: '865564053911000' },
-  { pin: 84302, serial_num: '865564053911001' },
-  { pin: 93019, serial_num: '865564053911002' },
-  { pin: 38359, serial_num: '865564053911003' },
-  { pin: 45322, serial_num: '865564053911004' }
+  { pin: 62511243, serial_num: 'SDP9988375879270' },
+  { pin: 22128956, serial_num: 'SDP9988375879271' },
+  { pin: 36864087, serial_num: 'SDP9988375879272' },
+  { pin: 49280942, serial_num: 'SDP9988375879273' },
+  { pin: 47421936, serial_num: 'SDP9988375879274' },
+  { pin: 34639053, serial_num: 'SDP9988375879275' },
+  { pin: 52842289, serial_num: 'SDP9988375879276' }
+]
+```
+### If serialNumLength.includePrefixLength === false,
+it will add prefixCharacter length to the serialNumLength.length
+
+## Example
+
+```javascript
+pinGen({
+    serialNumLength : {
+        length: 15,
+        includePrefixLength: false
+    },
+    prefixCharacters: 'sdp',
+    numberRequired: 7,
+    pinLength: 8
+})
+.then(values => console.log(values))
+.catch(err => console.log(err.message));
+```
+
+**Which generates** 
+```
+[
+  { pin: 62131779, serial_num: 'SDP5434814428618890' },
+  { pin: 86781427, serial_num: 'SDP5434814428618891' },
+  { pin: 57071838, serial_num: 'SDP5434814428618892' },
+  { pin: 42043437, serial_num: 'SDP5434814428618893' },
+  { pin: 82469489, serial_num: 'SDP5434814428618894' },
+  { pin: 38335381, serial_num: 'SDP5434814428618895' },
+  { pin: 97639287, serial_num: 'SDP5434814428618896' }
 ]
 ```
 
@@ -84,9 +139,9 @@ pinGen({
 | options keys | datatype | description |
 ------ | -------- | -----------
 | **`options.pinLength`** | **number** | The number of digits the pin should have. |
-| **`options.serialNumLength`** | **number** | The number of characters (string length) of the serial number. |
+| **`options.serialNumLength`** | **object|number** | **`options.serialNumLength.length`** type **number** The number of characters (string length) of the serial number. **`options.serialNumLength.includePrefixLength`** type **boolean** if true, the serial number prefix character length will be included in the serial number total length. Otherwise the serial number total length will **`options.prefixCharacters`** length +  **`options.serialNumLength.length`. If **`options.serialNumLength` is a number it will be use for **`options.serialNumLength.length`. |
 | **`options.prefixCharacters`** | **string** | The prefix characters of the serial number. This should be alphanumeric characters. If you did not provide this option, the serial numbers will be string of numbers only. *The `options.serialNumLength` should be at least **_four characters_** longer than the length of the `options.prefixCharacters`.* string |
-| **`options.numberRequired`** | **number** | The total number of pins and corresponding serial numbers required to be generated. |
+| **`options.numberRequired.`** | **number** | The total number of pins and corresponding serial numbers required to be generated. |
 
 ### NOTE: 
 The `options.serialNumLength` should be at least **_four characters_** longer than the length of the `options.prefixCharacters`.
@@ -95,7 +150,10 @@ The `options.serialNumLength` should be at least **_four characters_** longer th
 ```
 {
     pinLength: 12, 
-    serialNumLength: 15, 
+    serialNumLength: {
+        length: 15,
+        includePrefixLength: false,
+    }, 
     prefixCharacters: '', 
     numberRequired: 20
 }
